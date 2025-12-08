@@ -1,0 +1,23 @@
+name = "flareslop"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+[vars]
+FEATURE_SFU_ENABLED = "false"
+
+# Optional: bind a KV namespace when ready so you can flip the flag without redeploying.
+# [[kv_namespaces]]
+# binding = "VOICE_FEATURE_FLAGS"
+# id = "<production namespace id>"
+# preview_id = "<preview namespace id>"
+
+ICE_SERVERS_JSON = '[{"urls":["stun:stun.cloudflare.com:3478","stun:stun.l.google.com:19302"]}]'
+
+
+[[durable_objects.bindings]]
+name = "WORLD_SHARD"
+class_name = "WorldShard"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["WorldShard"]
