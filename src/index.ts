@@ -33,7 +33,9 @@ const deriveCellId = ({ x, y, z }: Vector3): string => {
   return `cell:${cellX}:${cellY}:${cellZ}`;
 };
 
-const parseJoinRequest = async (request: Request): Promise<JoinWorldRequest> => {
+const parseJoinRequest = async (
+  request: Request,
+): Promise<JoinWorldRequest> => {
   let body: unknown;
 
   try {

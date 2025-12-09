@@ -5,7 +5,8 @@ export enum VoiceTransportMode {
   SFU = "sfu",
 }
 
-export const DEFAULT_TURN_API_URL = "https://rtc.live.cloudflare.com/v1/turn/credentials";
+export const DEFAULT_TURN_API_URL =
+  "https://rtc.live.cloudflare.com/v1/turn/credentials";
 
 export type IceServer = {
   urls: string | string[];

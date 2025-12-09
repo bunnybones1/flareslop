@@ -63,6 +63,7 @@ If you have a Cloudflare TURN server, the Worker can request short-lived credent
 3. Restart `wrangler dev` and run the Phase 1 test.
 
 On each join, the Worker will:
+
 - Call the Cloudflare TURN credentials endpoint with your token pair.
 - Validate the returned `iceServers` and cache them briefly based on the TTL from the response (or the override).
 - Fall back to `ICE_SERVERS_JSON` (or the built-in STUN defaults) if the TURN request fails.

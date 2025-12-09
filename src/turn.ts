@@ -48,7 +48,9 @@ const computeCacheMs = (
   return DEFAULT_TURN_CACHE_MS;
 };
 
-export const resolveTurnIceServers = async (env: VoiceChatEnv): Promise<IceServer[] | null> => {
+export const resolveTurnIceServers = async (
+  env: VoiceChatEnv,
+): Promise<IceServer[] | null> => {
   const tokenId = env.TURN_TOKEN_ID?.trim();
   const apiToken = env.TURN_API_TOKEN?.trim();
 
@@ -86,7 +88,11 @@ export const resolveTurnIceServers = async (env: VoiceChatEnv): Promise<IceServe
 
   if (!response.ok) {
     const detail = await response.text().catch(() => "");
-    console.error("TURN credentials request returned non-OK", response.status, detail);
+    console.error(
+      "TURN credentials request returned non-OK",
+      response.status,
+      detail,
+    );
     return null;
   }
 
@@ -116,7 +122,9 @@ export const resolveTurnIceServers = async (env: VoiceChatEnv): Promise<IceServe
     expiresAt: now + cacheMs,
   };
 
-  console.log(`Fetched ${validated.length} TURN ICE servers, caching for ${cacheMs} ms`);
+  console.log(
+    `Fetched ${validated.length} TURN ICE servers, caching for ${cacheMs} ms`,
+  );
   console.debug("TURN ICE servers:", validated);
 
   return validated;
