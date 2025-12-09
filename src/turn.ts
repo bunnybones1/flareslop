@@ -69,7 +69,7 @@ export const resolveTurnIceServers = async (
   const params = {
     method: "POST",
     headers: {
-      authorization: `Bearer ${apiToken}`,
+      Authorization: `Bearer ${apiToken}`,
       "Content-Type:": "application/json",
     },
     body: JSON.stringify({ ttl: 86400 }),
