@@ -62,7 +62,8 @@ export const resolveTurnIceServers = async (env: VoiceChatEnv): Promise<IceServe
     return cached.iceServers;
   }
 
-  const url = (env.TURN_API_URL ?? DEFAULT_TURN_API_URL).trim();
+  const baseUrl = (env.TURN_API_URL ?? DEFAULT_TURN_API_URL).trim();
+  const url = `${baseUrl}?token=${encodeURIComponent(tokenId)}`;
   const ttlSeconds = env.TURN_CACHE_TTL_SECONDS
     ? Number.parseInt(env.TURN_CACHE_TTL_SECONDS, 10)
     : undefined;
@@ -75,6 +76,7 @@ export const resolveTurnIceServers = async (env: VoiceChatEnv): Promise<IceServe
         authorization: `Bearer ${apiToken}`,
         "content-type": "application/json",
       },
+      // Body currently unused by the API, but kept for forward compatibility.
       body: JSON.stringify({ token: tokenId }),
     });
   } catch (error) {
