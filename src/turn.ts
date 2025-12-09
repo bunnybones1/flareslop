@@ -70,7 +70,7 @@ export const resolveTurnIceServers = async (
     method: "GET",
     headers: {
       authorization: `Bearer ${apiToken}`,
-      "Content-Type:": "application/json",
+      // "Content-Type:": "application/json",
     },
 
     // curl \
