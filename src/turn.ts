@@ -116,5 +116,8 @@ export const resolveTurnIceServers = async (env: VoiceChatEnv): Promise<IceServe
     expiresAt: now + cacheMs,
   };
 
+  console.log(`Fetched ${validated.length} TURN ICE servers, caching for ${cacheMs} ms`);
+  console.debug("TURN ICE servers:", validated);
+
   return validated;
 };
