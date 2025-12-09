@@ -66,21 +66,25 @@ export const resolveTurnIceServers = async (
     : undefined;
 
   let response: Response;
-  try {
-    response = await fetch(url, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${apiToken}`,
-        "Content-Type:": "application/json",
-      },
-      // -d '{"ttl": 86400}' \
+  const params = {
+    method: "GET",
+    headers: {
+      authorization: `Bearer ${apiToken}`,
+      "Content-Type:": "application/json",
+    },
 
-      // curl \
-      // -H "Authorization: Bearer 91fac345ae6591e317eb7d81b352cfa3ed83c41b36b7fbf68c9733196a84e261" \
-      // -H "Content-Type: application/json" -d '{"ttl": 86400}' \
-    });
+    // curl \
+    // -H "Authorization: Bearer 91fac345ae6591e317eb7d81b352cfa3ed83c41b36b7fbf68c9733196a84e261" \
+    // -H "Content-Type: application/json" -d '{"ttl": 86400}' \
+  };
+  try {
+    response = await fetch(url, params);
   } catch (error) {
-    console.error("TURN credentials request failed", error);
+    console.error(
+      "TURN credentials request failed",
+      error,
+      JSON.stringify(params),
+    );
     return null;
   }
 
