@@ -1,9 +1,4 @@
-import {
-  DEFAULT_TURN_API_URL,
-  IceServer,
-  VoiceChatEnv,
-  isIceServerLike,
-} from "./config";
+import { IceServer, VoiceChatEnv, isIceServerLike } from "./config";
 
 type TurnCredentialsResponse = {
   iceServers?: unknown;
@@ -64,8 +59,8 @@ export const resolveTurnIceServers = async (
     return cached.iceServers;
   }
 
-  const baseUrl = (env.TURN_API_URL ?? DEFAULT_TURN_API_URL).trim();
-  const url = `${baseUrl}?token=${encodeURIComponent(tokenId)}`;
+  const url = `https://rtc.live.cloudflare.com/v1/turn/keys/${tokenId}/credentials/generate-ice-servers`;
+
   const ttlSeconds = env.TURN_CACHE_TTL_SECONDS
     ? Number.parseInt(env.TURN_CACHE_TTL_SECONDS, 10)
     : undefined;
@@ -73,13 +68,16 @@ export const resolveTurnIceServers = async (
   let response: Response;
   try {
     response = await fetch(url, {
-      method: "POST",
+      method: "GET",
       headers: {
         authorization: `Bearer ${apiToken}`,
-        "content-type": "application/json",
+        "Content-Type:": "application/json",
       },
-      // Body currently unused by the API, but kept for forward compatibility.
-      body: JSON.stringify({ token: tokenId }),
+      // -d '{"ttl": 86400}' \
+
+      // curl \
+      // -H "Authorization: Bearer 91fac345ae6591e317eb7d81b352cfa3ed83c41b36b7fbf68c9733196a84e261" \
+      // -H "Content-Type: application/json" -d '{"ttl": 86400}' \
     });
   } catch (error) {
     console.error("TURN credentials request failed", error);
