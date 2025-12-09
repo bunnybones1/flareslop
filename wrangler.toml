@@ -33,3 +33,7 @@ new_classes = ["WorldShard"]
 [[migrations]]
 tag = "v4"
 new_classes = ["WorldShard"]
+
+[[migrations]]
+tag = "v5"
+new_classes = ["WorldShard"]
