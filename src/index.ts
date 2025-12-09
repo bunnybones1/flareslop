@@ -7,6 +7,7 @@ import {
 import { Vector3, VoiceWorkerEnv } from "./types";
 import { makeJsonResponse, uuid } from "./utils";
 import { WorldShard } from "./worldShard";
+import { resolveTurnIceServers } from "./turn";
 
 type JoinWorldRequest = {
   playerId: string;
@@ -32,9 +33,7 @@ const deriveCellId = ({ x, y, z }: Vector3): string => {
   return `cell:${cellX}:${cellY}:${cellZ}`;
 };
 
-const parseJoinRequest = async (
-  request: Request,
-): Promise<JoinWorldRequest> => {
+const parseJoinRequest = async (request: Request): Promise<JoinWorldRequest> => {
   let body: unknown;
 
   try {
@@ -137,12 +136,13 @@ const handleJoin = async (
     }
 
     const transportMode = await resolveVoiceTransportMode(env);
+    const turnServers = await resolveTurnIceServers(env);
     const response: JoinWorldResponse = {
       cellId,
       cellWebSocketUrl: buildCellWebSocketUrl(request, cellId),
       sessionToken,
       transportMode,
-      iceServers: getIceServers(env),
+      iceServers: turnServers ?? getIceServers(env),
     };
 
     return makeJsonResponse(response, { status: 200 });

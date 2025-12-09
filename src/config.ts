@@ -5,6 +5,8 @@ export enum VoiceTransportMode {
   SFU = "sfu",
 }
 
+export const DEFAULT_TURN_API_URL = "https://rtc.live.cloudflare.com/v1/turn/credentials";
+
 export type IceServer = {
   urls: string | string[];
   username?: string;
@@ -19,6 +21,10 @@ export interface VoiceChatEnv {
   FEATURE_SFU_ENABLED?: string;
   VOICE_FEATURE_FLAGS?: MaybeKvNamespace;
   ICE_SERVERS_JSON?: string;
+  TURN_TOKEN_ID?: string;
+  TURN_API_TOKEN?: string;
+  TURN_API_URL?: string;
+  TURN_CACHE_TTL_SECONDS?: string;
 }
 
 const toBoolean = (value: string | null | undefined): boolean | undefined => {
@@ -72,7 +78,7 @@ const DEFAULT_ICE_SERVERS: IceServer[] = [
   },
 ];
 
-const isIceServerLike = (value: unknown): value is IceServer => {
+export const isIceServerLike = (value: unknown): value is IceServer => {
   if (value == null || typeof value !== "object") {
     return false;
   }

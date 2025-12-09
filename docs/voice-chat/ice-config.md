@@ -47,4 +47,24 @@ After setting the secret, restart `wrangler dev` and run the Phase 1 local test:
 pnpm run voice:test:phase1
 ```
 
+## Cloudflare Managed TURN (recommended)
+
+If you have a Cloudflare TURN server, the Worker can request short-lived credentials on every `/join`:
+
+1. Create a TURN server and note your **TURN Token ID** and **API Token**.
+2. Configure the Worker:
+   ```sh
+   wrangler secret put TURN_API_TOKEN        # paste your API Token
+   wrangler secret put TURN_TOKEN_ID         # paste the TURN Token ID
+   # Optional overrides:
+   # wrangler secret put TURN_API_URL        # defaults to https://rtc.live.cloudflare.com/v1/turn/credentials
+   # wrangler secret put TURN_CACHE_TTL_SECONDS  # cache duration in seconds (default ~60s)
+   ```
+3. Restart `wrangler dev` and run the Phase 1 test.
+
+On each join, the Worker will:
+- Call the Cloudflare TURN credentials endpoint with your token pair.
+- Validate the returned `iceServers` and cache them briefly based on the TTL from the response (or the override).
+- Fall back to `ICE_SERVERS_JSON` (or the built-in STUN defaults) if the TURN request fails.
+
 The script logs the `iceServers` array it receives to confirm your credentials are being surfaced to the client.
